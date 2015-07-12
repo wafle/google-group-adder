@@ -47,6 +47,45 @@
                     handleAuthResult);
             return false;
         }
+
+        function addAllEmails() {
+            var encodedGroupAddress = document.getElementById("group-address").value;
+            var emails = document.getElementById("emails").value.split("\n");
+            var completedDiv = document.getElementById("success");
+            var errorMessageDiv = document.getElementById("error-messages");
+            var errorEmailDiv = document.getElementById("error-emails");
+
+            var batch = gapi.client.newBatch();
+            emails.forEach(function (email) {
+                email = email.trim();
+                if (email == "") {
+                    return;
+                }
+                var request = addToList(email, encodedGroupAddress);
+                batch.add(request);
+                request.then(function (response) {
+                            completedDiv.innerHTML += email + "<br/>";
+                        },
+                        function (error) {
+                            var errorText = JSON.parse(error.body)["error"]["errors"][0]["message"];
+                            errorEmailDiv.innerHTML += email + "<br/>";
+                            errorMessageDiv.innerHTML += errorText + "<br/>";
+                        }
+                );
+            });
+            //batch.execute() does not run the handlers above
+            batch.then(function (response) {
+            });
+        }
+        var addToList = function (email, encodedGroupAddress) {
+            return gapi.client.request(
+                    {
+                        'path': 'admin/directory/v1/groups/' + encodedGroupAddress + '/members',
+                        'method': 'POST',
+                        'body': {'email': email}
+                    });
+        };
+
     </script>
     <script src="https://apis.google.com/js/client.js?onload=checkAuth">
     </script>
@@ -58,6 +97,19 @@
     <button id="authorize-button" onclick="handleAuthClick(event)">
         Authorize
     </button>
+</div>
+<div id="input">
+    <input type="text" id="group-address" placeholder="Group address goes here">
+    <button onclick="addAllEmails()">Add all</button>
+    <textarea id="emails" rows="6" cols="40" placeholder="Emails go here"></textarea>
+</div>
+<label for="success">Success:</label>
+<div id="success"></div>
+
+<label for="errors">Error:</label>
+<div id="errors">
+    <div id="error-emails"></div>
+    <div id="error-messages"></div>
 </div>
 </body>
 </html>
