@@ -1,29 +1,33 @@
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="style.css">
     <script src="script.js"></script>
     <script src="https://apis.google.com/js/client.js?onload=checkAuth">
     </script>
 </head>
 <body>
-<div id="authorize-div" style="display: none">
+<header id="authorize-div" style="display: none">
     <span>Authorize access to Groups Settings API</span>
     <!--Button for the user to click to initiate auth sequence -->
     <button id="authorize-button" onclick="handleAuthClick(event)">
         Authorize
     </button>
-</div>
-<div id="input">
-    <input type="text" id="group-address" placeholder="Group address goes here">
-    <button onclick="addAllEmails()">Add all</button>
-    <textarea id="emails" rows="6" cols="40" placeholder="Emails go here"></textarea>
-</div>
-<label for="success">Success:</label>
-<div id="success"></div>
-
-<label for="errors">Error:</label>
-<div id="errors">
-    <div id="error-emails"></div>
-    <div id="error-messages"></div>
-</div>
+</header>
+<main>
+    <div id="input">
+        <input type="text" id="group-address" placeholder="Group address goes here">
+        <button onclick="addAllEmails()">Add all</button>
+        <textarea id="emails" rows="6" cols="40" placeholder="Emails go here"></textarea>
+    </div>
+    <div id="results">
+        <label for="success">Success:</label>
+        <div id="success"></div>
+        <label for="errors">Error:</label>
+        <div id="errors">
+            <div id="error-emails">a<br>b<br>c</div>
+            <div id="error-messages">a@<br>b@<br>c@</div>
+        </div>
+    </div>
+</main>
 </body>
 </html>

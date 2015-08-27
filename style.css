@@ -1,0 +1,23 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+header {
+    display: none;
+}
+main {
+    display: flex;
+}
+#errors {
+	display: flex;
+}
+#errors > div {
+    padding: 5px;
+}
+#results {
+    display: flex;
+}
+#input {
+	display: flex;
+    flex-direction: column;
+}
